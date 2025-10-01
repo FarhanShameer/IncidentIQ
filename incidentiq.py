@@ -5,7 +5,6 @@ import datetime as dt
 
 app = Flask(__name__)
 
-# ------------------ Demo data ------------------
 incidents = [
     # RBC
     {"company":"RBC","title":"ATM Outage","severity":"High","root_cause":"Hardware",
@@ -52,7 +51,7 @@ incidents = [
      "date":"2025-09-20","status":"Open","resolved":None,"description":"Tag mismatch in historian."},
 ]
 
-# ----------------------------- HTML -----------------------------
+
 TEMPLATE = """
 <!doctype html>
 <html>
@@ -353,7 +352,6 @@ window.addEventListener('DOMContentLoaded', function () {
 </html>
 """
 
-# ----------------------------- Helpers -----------------------------
 def parse(d): return dt.datetime.strptime(d, "%Y-%m-%d").date()
 def in_last_days(item, days): return parse(item["date"]) >= dt.date.today() - dt.timedelta(days=days)
 def month_key(d): return (d.year, d.month)
@@ -443,7 +441,7 @@ def risk_register(items, _):
     rows.sort(key=lambda r: (r["score"], r["open"]), reverse=True)
     return rows
 
-# ------------------------------- Routes -------------------------------
+
 @app.route("/")
 def dashboard():
     selected = (request.args.get("company") or "").strip()
@@ -503,6 +501,7 @@ def add_incident():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
